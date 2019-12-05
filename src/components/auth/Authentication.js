@@ -11,7 +11,7 @@ class Autentication extends Component{
     }
     componentDidMount(){
         const jwt = getJwt();
-        if(!jwt){
+        if(jwt){
             try{
                 this.props.history.push("/home");
             }catch(error){
