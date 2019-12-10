@@ -1,0 +1,55 @@
+  .layout-sider {
+    min-height: 100vh;
+  }
+  .trigger-left {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .trigger-left:hover {
+    color: #1890ff;
+  }
+
+  .div-logo {
+    height: 32px;
+    background: rgb(0, 21, 41);
+    margin: 16px;
+  }
+  .div-left {
+    float: left;
+    width : 30%
+  }
+  .div-right {
+    float: right;
+    width : 70%
+  }
+  .div-left2 {
+    float: left;
+    width : 50%
+  }
+  .div-right2 {
+    float: right;
+    width : 50%
+  }
+  .search {
+    line-height: 64px;
+    margin-right: 5%;
+    /* width: 40%; */
+    position: relative;
+  }
+
+  .trigger-right {
+    font-size:1.2vw;
+    line-height: 64px;
+    margin-right: 5%;
+    cursor: pointer;
+    transition: color 0.3s;
+    float: right;
+  }
+  
+ .trigger-right:hover {
+    color: #1890ff;
+  }

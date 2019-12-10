@@ -13,7 +13,7 @@ class Autentication extends Component{
         const jwt = getJwt();
         if(jwt){
             try{
-                this.props.history.push("/home");
+                this.props.history.push("/");
             }catch(error){
                 localStorage.removeItem('token-jwt');
                 localStorage.removeItem('user-id');

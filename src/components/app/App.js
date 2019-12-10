@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import Login from '../auth/Login.js';
 import Register from '../auth/Register.js';
 import Authentication from '../auth/Authentication.js';
-import Sider from '../sider/Sider.js';
+import Home from '../home/Home.js';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>
             <Authentication>
-              <Route exact path="/home" component={Sider}/>
+              <Route exact path="/" component={Home}/>
             </Authentication>
           </Switch>
         </BrowserRouter>
