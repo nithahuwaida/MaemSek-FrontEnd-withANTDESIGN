@@ -17,30 +17,34 @@ const { SubMenu} = Menu;
 //   console.log('click', e);
 // }
 
-const menu = (
-  // <Menu onClick={handleMenuClick}>
-  <Menu>
-    <Menu.Item key="1">
-      <Icon type="logout" />
-      Logout
-    </Menu.Item>
-  </Menu>
-);
-
 class SiderLayout extends React.Component {
   state = {
     collapsed: false,
   };
-  // onCollapse = (collapsed) => {
-  //   this.setState({ collapsed });
-  // }
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
   };
 
+  logout = () => {
+    localStorage.removeItem('token-jwt');
+    localStorage.removeItem('user-email');
+    localStorage.removeItem('user-id');
+    this.props.history.push('/login')
+  }
+
   render() {
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="1" onClick={this.logout}>
+          <Icon type="logout"/>
+          Logout
+        </Menu.Item>
+      </Menu>
+    );
+
     return (
       <Router>
         
@@ -49,7 +53,6 @@ class SiderLayout extends React.Component {
             trigger={null} 
             collapsible 
             collapsed={this.state.collapsed}
-            // onCollapse ={this.onCollapse}
             >
             <div className="div-logo">
               {/* <img scr={Logo} alt="logo"/> */}

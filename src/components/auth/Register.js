@@ -6,7 +6,7 @@ import Logo from '../../image/LogoMaemSek.png';
 import { connect } from 'react-redux';
 import { register } from '../../public/redux/actions/user';
 
-const { Title} = Typography;
+const { Text} = Typography;
 
 class RegistrationForm extends React.Component {
   state = {
@@ -62,14 +62,14 @@ class RegistrationForm extends React.Component {
 
             {/* Logo */}
             <Col className='col-logo' span={14}>
-              <img src={Logo} alt="Logo"/>
-              <Title>" MaemSek Ojo Lali! "</Title>
+              <img src={Logo} alt="Logo"/><br/>
+              <Text className='text'>" MaemSek Ojo Lali! "</Text>
             </Col>
 
             {/* Form */}
             <Col className='col-form' span={10}>
               <div className='div-auth'><br/>
-                <Title>SELAMAT  DATANG</Title>
+                <Text className='text'>SELAMAT  DATANG</Text>
                 <Form onSubmit={this.handleSubmit} className="auth-form">
                 <Form.Item >
                     {getFieldDecorator('fullname', {

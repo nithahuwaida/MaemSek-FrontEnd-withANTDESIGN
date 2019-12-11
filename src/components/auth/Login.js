@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { login } from '../../public/redux/actions/user';
 import { Row, Col, Form, Icon, Input, Button, Typography } from 'antd';
 
-const { Title } = Typography;
+const { Text } = Typography;
 
 class LoginForm extends React.Component {
   state = {
@@ -41,12 +41,12 @@ class LoginForm extends React.Component {
         <div className='auth'>
           <Row >
             <Col className='col-logo' span={14}>
-              <img src={Logo} alt="Logo"/>
-              <Title>" MaemSek Ojo Lali! "</Title>
+              <img src={Logo} alt="Logo"/><br/>
+              <Text className='text'>" MaemSek Ojo Lali! "</Text>
             </Col>
             <Col className='col-form' span={10}>
               <div className='div-auth'><br/>
-                <Title>SELAMAT  DATANG</Title>
+                <Text className='text'>SELAMAT  DATANG</Text>
                 <Form onSubmit={e => this.handleSubmit(e)} className="auth-form">
                   <Form.Item>
                     {getFieldDecorator('email', {

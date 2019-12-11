@@ -1,9 +1,18 @@
 .col-logo {
   min-height: 100vh;
+  font-size:5vw;
+  /* float : left;
+  width : 50%; */
+  background: #141E30;
+  background: -webkit-linear-gradient(to left, #141E30, #243B55);
+  background: linear-gradient(to left, #141E30, #243B55);
+}
+.text{
+  font-size:3vw;
+  color : white;
 }
 img {
-  height: 80vmin;
-  margin: auto;
+  height: 70vmin;
 }
 .col-form {
   min-height: 100vh;
@@ -11,14 +20,16 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* float : right;
+  width : 50%; */
+  background: #141E30;
+  background: -webkit-linear-gradient(to left, #243B55, #141E30);
+  background: linear-gradient(to left, #243B55, #141E30);
   /* font-size: calc(10px + 2vmin); */
   /* color: white; */
 }
 .auth {
   text-align: center;
-  background: #ff6e7f;
-  background: -webkit-linear-gradient(to left, #bfe9ff, #ff6e7f);
-  background: linear-gradient(to left, #bfe9ff, #ff6e7f);
 }
 .div-auth{
   margin-right: 150px;
