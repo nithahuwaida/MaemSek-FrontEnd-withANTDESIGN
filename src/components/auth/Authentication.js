@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {getJwt} from '../helpers/Helpers';
 import {withRouter, Redirect} from 'react-router-dom';
+import axios from 'axios';
 
 class Autentication extends Component{
     constructor(props){
@@ -11,26 +12,32 @@ class Autentication extends Component{
     }
     componentDidMount(){
         const jwt = getJwt();
-        if(jwt){
-            try{
-                this.props.history.push("/");
-            }catch(error){
+        if(!jwt){
+            this.props.history.push("/login");
+        }
+        else if(jwt === undefined|| jwt === null || jwt === ''){
+            localStorage.removeItem('token-jwt');
+            this.props.history.push('/login');
+        }else{
+            axios.get(`http://localhost:8080/products`, {headers: {"Authorization": jwt}})
+            .then(res => {
+                this.setState({
+                data: res.data.response
+                });
+            }).catch(err=>{
+                this.props.history.push('/login');
                 localStorage.removeItem('token-jwt');
                 localStorage.removeItem('user-id');
                 localStorage.removeItem('user-email');
-                this.props.history.push('/login');
-            }
-        }
-        else{
-            this.props.history.push("/login");
+            });
         }
     }
 
     render(){
-        if(this.state.data === undefined){
+        if(this.state.data === undefined|| this.state.data === null || this.state.data === ''){
             return (<Redirect to={'/login'}/>)
         }
-        return( 
+        return(
             <div>
                 {this.props.children}
             </div>

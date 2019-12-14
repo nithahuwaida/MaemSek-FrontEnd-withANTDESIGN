@@ -11,7 +11,7 @@
   font-size:3vw;
   color : white;
 }
-img {
+.image {
   height: 70vmin;
 }
 .col-form {
@@ -30,6 +30,9 @@ img {
 }
 .auth {
   text-align: center;
+  background: #141E30;
+  background: -webkit-linear-gradient(to left, #141E30, #243B55);
+  background: linear-gradient(to left, #141E30, #243B55);
 }
 .div-auth{
   margin-right: 150px;

@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Row, Col, Form, Input, Icon, Button, Typography } from 'antd';
+import { Row, Col, Form, Input, Icon, Button, Typography, notification } from 'antd';
 import './Style.css';
 import Logo from '../../image/LogoMaemSek.png';
 import { connect } from 'react-redux';
@@ -22,6 +22,10 @@ class RegistrationForm extends React.Component {
         this.props.dispatch(register(values))
         .then(res =>{
           this.props.history.push('/login')
+          notification['success']({
+            message: 'Success',
+            description:'Register Berhasil',
+          });
         });
       }
     });
@@ -62,7 +66,7 @@ class RegistrationForm extends React.Component {
 
             {/* Logo */}
             <Col className='col-logo' span={14}>
-              <img src={Logo} alt="Logo"/><br/>
+              <img className='image' src={Logo} alt="Logo"/><br/>
               <Text className='text'>" MaemSek Ojo Lali! "</Text>
             </Col>
 

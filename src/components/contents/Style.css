@@ -1,0 +1,21 @@
+.gutter-example .ant-row > div {
+  background: white;
+  border: 0;
+}
+.gutter-row{
+  min-height: 100vh
+}
+.ant-card-actions > li > span {
+  cursor : auto;
+}
+.cart{
+  padding-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.search{
+  line-height: 64px;
+  width: 40%;
+  position: relative;
+}

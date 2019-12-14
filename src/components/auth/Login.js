@@ -4,13 +4,15 @@ import './Style.css';
 import Logo from '../../image/LogoMaemSek.png';
 import { connect } from 'react-redux';
 import { login } from '../../public/redux/actions/user';
-import { Row, Col, Form, Icon, Input, Button, Typography } from 'antd';
+import { Row, Col, Form, Icon, Input, Button, Typography, notification } from 'antd';
+
 
 const { Text } = Typography;
 
 class LoginForm extends React.Component {
   state = {
     loading: false,
+    redirect : false
   };
   register = ()=>{
     this.props.history.push('/register')
@@ -23,25 +25,44 @@ class LoginForm extends React.Component {
         this.setState({ loading: true });
         this.props.dispatch(login(values))
         .then(res =>{
-          localStorage.setItem('token-jwt', this.props.user.dataUser[0].jwt);
-          localStorage.setItem('user-id', this.props.user.dataUser[0].user.id);
-          localStorage.setItem('user-email', this.props.user.dataUser[0].user.email);
-          this.props.history.push('/home')
+          localStorage.setItem('token-jwt', this.props.user.userList.jwt);
+          if(this.props.user.userList.jwt === undefined|| this.props.user.userList.jwt === null || this.props.user.userList.jwt === ''){
+            this.setState({ loading: false })
+            localStorage.removeItem('token-jwt');
+            notification['error']({
+              message: 'Error',
+              description:
+              this.props.user.userList,
+            });
+          }else{
+            localStorage.setItem('user-id', this.props.user.userList.user.id);
+            localStorage.setItem('user-email', this.props.user.userList.user.email);
+            this.props.history.push('/')
+            notification['success']({
+              message: 'Login Berhasil',
+              description:
+                'Selamat Datang di Aplikasi Maem Sek',
+            });
+          }
+        }).catch(error => {
+          this.setState({ loading: false })
+          console.log(error)
         });
         // console.log('Received values of form: ', values);
-        
+      }else{
+        console.log('error') 
+        this.setState({ loading: false })
       }
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
     return (
         <div className='auth'>
           <Row >
             <Col className='col-logo' span={14}>
-              <img src={Logo} alt="Logo"/><br/>
+              <img className='image' src={Logo} alt="Logo"/><br/>
               <Text className='text'>" MaemSek Ojo Lali! "</Text>
             </Col>
             <Col className='col-form' span={10}>

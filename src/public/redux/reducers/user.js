@@ -1,5 +1,5 @@
 const initialState = {
-    dataUser: [],
+    userList: [],
     isLoading: false,
     isRejected: false,
     isFulfilled: false,
@@ -21,20 +21,20 @@ const initialState = {
           isRejected: true,
         };
       case 'POST_LOGIN_FULFILLED':
-      state.dataUser.push (action.payload.data.response);
+      state.userList = action.payload.data.response;
       return {
         ...state,
         isLoading: false,
         isFulfilled: true,
-        dataUser: state.dataUser,
+        userList: state.userList,
       };
       case 'POST_REGISTER_FULFILLED':
-      state.dataUser.push (action.payload.data.response);
+      state.userList.push (action.payload.data.response);
       return {
         ...state,
         isLoading: false,
         isFulfilled: true,
-        dataUser: state.dataUser,
+        userList: state.userList,
       };
       default:
         return state;

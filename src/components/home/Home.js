@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import { Layout, Menu, Icon, Dropdown, Typography, Input } from 'antd';
+import { Layout, Menu, Icon, Dropdown, Typography} from 'antd';
 import { getUserEmail } from '../helpers/Helpers';
 import './Home.css';
 
@@ -8,14 +8,8 @@ import CartLayout from '../contents/Cart';
 import ProductLayout from '../contents/Product';
 
 const { Header, Sider, Content} = Layout;
-const { Search } = Input;
-const { Text } = Typography;
+const { Text, Title } = Typography;
 const { SubMenu} = Menu;
-
-// function handleMenuClick(e) {
-//   message.info('Click on menu item.');
-//   console.log('click', e);
-// }
 
 class SiderLayout extends React.Component {
   state = {
@@ -35,7 +29,6 @@ class SiderLayout extends React.Component {
   }
 
   render() {
-
     const menu = (
       <Menu>
         <Menu.Item key="1" onClick={this.logout}>
@@ -63,7 +56,8 @@ class SiderLayout extends React.Component {
               theme="dark" 
               mode="inline" 
               defaultSelectedKeys={['2']}
-              defaultOpenKeys={['sub1']}>
+              // defaultOpenKeys={['sub1']}
+              >
               <Menu.Item key="1">
                 <Icon type="line-chart" />
                 <span>Dasboard</span>
@@ -112,11 +106,7 @@ class SiderLayout extends React.Component {
               </div>
               <div className='div-right'>
                 <div className='div-left2'>
-                  <Search
-                  className="search"
-                  placeholder="input search text"
-                  onSearch={value => console.log(value)}
-                />
+                  <Title style={{lineHeight: 0, marginTop: '8%'}}>MaemSek</Title>
                 </div>
                 <div className='div-right2'>
                   <Dropdown overlay={menu} trigger={['click']}>
