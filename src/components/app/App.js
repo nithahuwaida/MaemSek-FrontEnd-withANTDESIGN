@@ -18,6 +18,7 @@ function App() {
             <Authentication>
               <Route exact path="/" component={Home}/>
               <Route exact path="/product" component={Home}/>
+              <Route exact path="/category" component={Home}/>
             </Authentication>
           </Switch>
         </BrowserRouter>

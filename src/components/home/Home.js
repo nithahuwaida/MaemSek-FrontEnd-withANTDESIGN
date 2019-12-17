@@ -6,6 +6,7 @@ import './Home.css';
 
 import CartLayout from '../contents/Cart';
 import ProductLayout from '../contents/Product';
+import CategoryLayout from '../contents/Category';
 
 const { Header, Sider, Content} = Layout;
 const { Text, Title } = Typography;
@@ -130,6 +131,7 @@ class SiderLayout extends React.Component {
             >
               <Route exact path="/" component={CartLayout} />
               <Route path="/product" component={ProductLayout} />
+              <Route path="/category" component={CategoryLayout} />
             </Content>
           </Layout>
         </Layout>
