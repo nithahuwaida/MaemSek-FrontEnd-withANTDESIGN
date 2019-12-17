@@ -24,7 +24,7 @@ const ProductLayout = (props) => {
     }).catch(error => {
         console.log(error);
     })
-}  
+  }  
   useEffect(() => {
     fetchDataProduct()
   },[]);
@@ -155,7 +155,8 @@ const ProductLayout = (props) => {
       },
       {
         title: 'Action',
-        key: 'action-'+'name_product',
+        dataIndex: "id",
+        key: 'action',
         render: () =>
           <span>
             <Button type="primary" size="small" icon="edit" style={{marginRight:2}} ghost/>
