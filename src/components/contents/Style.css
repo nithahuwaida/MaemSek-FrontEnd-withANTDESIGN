@@ -1,9 +1,10 @@
+/* Style Cart */
 .gutter-example .ant-row > div {
   background: white;
   border: 0;
 }
 .gutter-row{
-  min-height: 100vh
+  min-height: 60vh
 }
 .ant-card-actions > li > span {
   cursor : auto;
@@ -18,4 +19,9 @@
   line-height: 64px;
   width: 40%;
   position: relative;
+}
+
+/* Style Product*/
+.imageProduct-list{
+  height: 10vmin;
 }
