@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Input, Button, Icon, Modal} from 'antd';
+import { Layout, Table, Input, Button, Icon, Modal} from 'antd';
 import Highlighter from 'react-highlight-words';
 import { getProduct } from '../../public/redux/actions/product';
 import './Style.css';
 
+const { Content } = Layout;
 const { confirm } = Modal;
 
-const ProductLayout = (props) => {
+const ProductLayout = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
 
@@ -165,12 +166,16 @@ const ProductLayout = (props) => {
       },
     ];
     return (
-      <Table 
-        rowKey={record => record.id}
-        columns={columns} 
-        dataSource={dataProducts}
-        size={"small"} 
-      />
+      <Layout>
+        <Content className="gutter-example" style={{background: 'white'}}>
+          <Table 
+            rowKey={record => record.id}
+            columns={columns} 
+            dataSource={dataProducts}
+            size={"small"} 
+          />
+        </Content>
+      </Layout>
     )
 }
 
