@@ -25,3 +25,17 @@
 .imageProduct-list{
   height: 10vmin;
 }
+
+/* Style Setting */
+.profil-image{
+  min-height: 30vh;
+  min-width: 15vw;
+}
+.row-profil{
+  padding-top: 20px;
+  padding-left: 30px;
+}
+.title{
+  font-size:20px;
+  color : black;
+}
