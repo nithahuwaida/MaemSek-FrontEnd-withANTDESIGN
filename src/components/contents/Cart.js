@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import { Layout, Row, Col, Card, Avatar, Icon, Typography,
          Button, Divider, Input} from 'antd';
 import './Style.css'
 import cartPlus from '../../image/shopping-cart-2.svg';
 import cart from '../../image/cart-1.svg';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../public/redux/actions/product';
 
 const { Content } = Layout;
@@ -14,9 +14,23 @@ const { Search } = Input;
 const ButtonGroup = Button.Group;
 
 const CartLayout = (props) => {
-    useEffect(() =>{
-      props.dispatch(getProduct())
-    },[])
+  const dispatch = useDispatch();
+  
+  const fetchDataProduct = async () => {
+    await dispatch(getProduct())
+    .then(res => {
+        console.log('berhasil');
+    }).catch(error => {
+        console.log(error);
+    })
+}  
+  useEffect(() => {
+    fetchDataProduct()
+  },[])
+
+  const { dataProduct } = useSelector(state => ({
+    dataProduct : state.product.productList
+  }));
 
     return (
       <Layout>
@@ -30,15 +44,15 @@ const CartLayout = (props) => {
                   onSearch={value => console.log(value)}
                 />
               </div>
-              {props.dataProducts.map ((item, index)=> {
+              {dataProduct.map ((item, index)=> {
                 return(
                   <Col key={index} className="gutter-row" xs={8}>
                     <Card
                       style={{display:'inline-block'}} 
                       cover={
                         <img
-                          alt="image-product"
                           src= {item.image_product}
+                          alt={item.name_product}
                         />
                       }
                       actions={[
@@ -97,9 +111,4 @@ const CartLayout = (props) => {
     );
 }
 
-const mapStateToProps = state => {
-  return {
-    dataProducts : state.product.productList
-  }
-}
-export default connect(mapStateToProps)(CartLayout);
+export default (CartLayout);
