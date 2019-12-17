@@ -17,6 +17,7 @@ function App() {
           <Route path="/register" component={Register}/>
             <Authentication>
               <Route exact path="/" component={Home}/>
+              <Route exact path="/product" component={Home}/>
             </Authentication>
           </Switch>
         </BrowserRouter>

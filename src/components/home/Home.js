@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, withRouter} from 'react-router-dom';
 import { Layout, Menu, Icon, Dropdown, Typography} from 'antd';
 import { getUserEmail } from '../helpers/Helpers';
 import './Home.css';
@@ -13,8 +13,9 @@ const { SubMenu} = Menu;
 
 class SiderLayout extends React.Component {
   state = {
-    collapsed: false,
+    collapsed: true,
   };
+    
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -40,7 +41,6 @@ class SiderLayout extends React.Component {
 
     return (
       <Router>
-        
         <Layout className='layout-sider'>
           <Sider 
             trigger={null} 
@@ -55,15 +55,17 @@ class SiderLayout extends React.Component {
             <Menu 
               theme="dark" 
               mode="inline" 
-              defaultSelectedKeys={['2']}
+              // defaultSelectedKeys={['2']}
               // defaultOpenKeys={['sub1']}
+              defaultOpenKeys={[this.props.location.pathname]}
+              defaultSelectedKeys={[this.props.location.pathname]}
               >
-              <Menu.Item key="1">
+              <Menu.Item key='/dashboard'>
                 <Icon type="line-chart" />
-                <span>Dasboard</span>
-                <Link to='/dasboard'/>
+                <span>Dashboard</span>
+                <Link to='/dashboard'/>
               </Menu.Item>
-              <Menu.Item key="2">
+              <Menu.Item key='/'>
                 <Icon type="shopping-cart" />
                 <span>Cart</span>
                 <Link to='/'/>
@@ -77,18 +79,18 @@ class SiderLayout extends React.Component {
                   </span>
                 }
               >
-                <Menu.Item key="4">
+                <Menu.Item key='/product'>
                   <Icon type="inbox" />
                   <span>Product</span>
                   <Link to='/product'/>
                 </Menu.Item>
-                <Menu.Item key="5">
+                <Menu.Item key='/category'>
                   <Icon type="gold" />
                   <span>Category</span>
                   <Link to='/category'/>
                 </Menu.Item>
               </SubMenu>
-              <Menu.Item key="6">
+              <Menu.Item key='/setting'>
                 <Icon type="setting" />
                 <span>Setting</span>
                 <Link to='/setting'/>
@@ -136,4 +138,4 @@ class SiderLayout extends React.Component {
   }
 }
 
-export default SiderLayout;
+export default withRouter(SiderLayout);
