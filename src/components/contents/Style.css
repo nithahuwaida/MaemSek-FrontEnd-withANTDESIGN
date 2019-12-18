@@ -16,9 +16,10 @@
   display: flex;
 }
 .search{
-  line-height: 64px;
-  width: 40%;
-  position: relative;
+  width: 50%;
+  display: 'block';
+  background-color:#001529;
+  color: white;
 }
 
 /* Style Product*/

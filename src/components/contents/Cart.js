@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState} from 'react';
 import { Layout, Row, Col, Card, Avatar, Icon, Typography,
          Button, Divider, Input} from 'antd';
 import './Style.css'
@@ -10,10 +10,13 @@ import { getProduct } from '../../public/redux/actions/product';
 const { Content } = Layout;
 const { Meta } = Card;
 const { Text } = Typography;
-const { Search } = Input;
 const ButtonGroup = Button.Group;
 
-const CartLayout = (props) => {
+const CartLayout = () => {
+  const initialFromState = {
+    search : ""
+  }
+  const [input, setInput] = useState(initialFromState);
   const dispatch = useDispatch();
   
   const fetchDataProduct = async () => {
@@ -23,7 +26,7 @@ const CartLayout = (props) => {
     }).catch(error => {
         console.log(error);
     })
-}  
+  }  
   useEffect(() => {
     fetchDataProduct()
   },[])
@@ -31,6 +34,16 @@ const CartLayout = (props) => {
   const { dataProduct } = useSelector(state => ({
     dataProduct : state.product.productList
   }));
+  const handleSearch = name_product => event => {
+    setInput({ 
+      ...input,
+      [name_product] : event.target.value
+    });
+  };
+  
+  let searchProduct = dataProduct.filter((item) => {
+    return item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1
+  })
 
     return (
       <Layout>
@@ -38,13 +51,15 @@ const CartLayout = (props) => {
           <Row gutter={[16, 16]} >
             <Col xs={16}>
               <div className='cart'>
-                <Search
-                  className="search"
-                  placeholder="input search text"
-                  onSearch={value => console.log(value)}
+                <Input
+                  placeholder={`Cari nama Produk...`}
+                  value={input.search}
+                  onChange={handleSearch("search")}
+                  className= 'search'
                 />
               </div>
-              {dataProduct.map ((item, index)=> {
+              { searchProduct.map ((item, index)=> {
+                console.log('searchProduct', searchProduct.length)
                 return(
                   <Col key={index} className="gutter-row" xs={8}>
                     <Card
@@ -68,7 +83,8 @@ const CartLayout = (props) => {
                     </Card>
                   </Col>
                 );
-              })}
+              })
+              }
             </Col>
             <Col xs={8}>
               <Card
