@@ -36,6 +36,7 @@ export function putCategory(data){
     };
 };
 export function deleteCategory(id){
+    console.log('id', id)
     const jwt = getJwt();
     return {
         type: 'DELETE_CATEGORY',

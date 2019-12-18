@@ -50,9 +50,12 @@ const initialState = {
           categoryList: dataAfterPatch,
         };
       case 'DELETE_CATEGORY_FULFILLED':
-        const dataAfterDelete = state.categoryList.filter (
-          category => category.id_category !== action.payload.data.id
-        );
+        let id = "";
+        let dataAfterDelete = state.categoryList;
+        if (action.payload.status === 200) {
+          id = action.payload.data.response.id;
+          dataAfterDelete = state.categoryList.filter(item => item.id !== Number(id));
+        }
         return {
           ...state,
           isLoading: false,

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Table, Input, Button, Icon, Modal} from 'antd';
+import { Layout, Table, Input, Button, Icon, Modal, notification} from 'antd';
 import Highlighter from 'react-highlight-words';
-import { getCategory } from '../../public/redux/actions/category';
+import { getCategory, deleteCategory } from '../../public/redux/actions/category';
 import './Style.css';
+
+import AddCategory from '../page/AddCategory';
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -13,9 +15,9 @@ const CategoryLayout = () =>{
     const [searchedColumn, setSearchedColumn] = useState('');
 
     const dispatch = useDispatch();
-    const { dataCategories } = useSelector( state => ({
-        dataCategories : state.category.categoryList
-    }))
+    const { categoryList, isLoading } = useSelector( 
+      state => state.category
+    ) 
 
     const fetchDataCategory = async () => {
         await dispatch(getCategory())
@@ -26,21 +28,38 @@ const CategoryLayout = () =>{
         })
       }  
       useEffect(() => {
-        fetchDataCategory()
-      },[]);
+        const timeOut = setTimeout(() => {
+          fetchDataCategory()
+        }, 0);
+    
+        return () => clearTimeout(timeOut);
+      }, []);
 
       const indexColumns = searchedColumn.input;
       const indexSearchText = searchText.searchText;
     
-      const deleteConfirm = () => {
+      const handleDelete = async (record) =>{
+        const deleteCategoryId = await dispatch(deleteCategory(record));
+        const name_category = deleteCategoryId.value.data.response.name_category;
+          if (deleteCategoryId.value.data.status === 'success') {
+            notification.success({
+              message: "Berhasil",
+              description: `Berhasil menghapus kategori ${name_category}.`
+            });
+          } else {
+            notification.error({
+              message: "Gagal menghapus category",
+              description: `Maaf kategori ${name_category} tidak dapat dihapus.`
+            });
+          }
+      }
+      const deleteConfirm = (record) => {
         confirm({
           title: 'Apakah kamu ingin menghapus kategori ini?',
           onOk() {
-            return new Promise((resolve, reject) => {
-              setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-            }).catch(() => console.log('Terjadi Kesalahan!'));
+            handleDelete(record)
           },
-          onCancel() {},
+          onCancel() {console.log('cancel')},
         });
       }
     
@@ -105,42 +124,38 @@ const CategoryLayout = () =>{
         setSearchText({ searchText: '' });
       };
     
-        const columns = [
-          {
-            title: 'No',
-            dataIndex: 'id',
-            key: 'id',
-            ...getColumnSearchProps('id'),
-          },
-          {
-            title: 'Nama Kategori',
-            dataIndex: 'name_category',
-            key: 'name_category',
-            ...getColumnSearchProps('name_category'),
-          },
-          {
-            title: 'Action',
-            dataIndex: "id",
-            key: 'action',
-            render: () =>
-              <span>
-                <Button type="primary" size="small" icon="edit" style={{marginRight:2}} ghost/>
-                <Button type="danger" size="small" icon="delete" onClick={deleteConfirm} ghost/>
-              </span>
-          },
-        ];
-        return (
-          <Layout>
-            <Content className="gutter-example" style={{background: 'white'}}>
-              <Table 
-                rowKey={record => record.id}
-                columns={columns} 
-                dataSource={dataCategories}
-                size={"small"} 
-              />
-            </Content>
-          </Layout>
-        )
+      const columns = [
+        {
+          title: 'Nama Kategori',
+          dataIndex: 'name_category',
+          key: 'name_category',
+          ...getColumnSearchProps('name_category'),
+        },
+        {
+          title: 'Action',
+          dataIndex: "id",
+          key: 'action',
+          render: (record) =>
+            <span>
+              <Button type="primary" size="small" icon="edit" style={{marginRight:2}} ghost/>
+              <Button type="danger" size="small" icon="delete" onClick={()=>deleteConfirm(record)} ghost/>
+            </span>
+        },
+      ];
+      return (
+        <Layout>
+          <Content className="gutter-example" style={{background: 'white'}}>
+            <AddCategory/>
+            <Table 
+              rowKey={record => record.id}
+              columns={columns}
+              dataSource={categoryList}
+              loading={isLoading}
+              size={"small"}
+            />
+          </Content>
+        </Layout>
+      )
 }
 
 export default CategoryLayout;
