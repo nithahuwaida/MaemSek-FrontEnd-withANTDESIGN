@@ -110,7 +110,7 @@ class SiderLayout extends React.Component {
               </div>
               <div className='div-right'>
                 <div className='div-left2'>
-                  <Title style={{lineHeight: 0, marginTop: '8%'}}>MaemSek</Title>
+                  <Text className='title-home'>MaemSek</Text>
                 </div>
                 <div className='div-right2'>
                   <Dropdown overlay={menu} trigger={['click']}>

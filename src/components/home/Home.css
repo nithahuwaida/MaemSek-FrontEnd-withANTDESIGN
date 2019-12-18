@@ -20,7 +20,7 @@
   }
   .div-left {
     float: left;
-    width : 30%
+    width : 30%;
   }
   .div-right {
     float: right;
@@ -28,7 +28,8 @@
   }
   .div-left2 {
     float: left;
-    width : 50%
+    width : 50%;
+    margin-top: 1%;
   }
   .div-right2 {
     float: right;
@@ -45,4 +46,12 @@
   
  .trigger-right:hover {
     color: #1890ff;
+  }
+
+  .title-home{
+    line-height: 0;
+    margin-left: 25%;
+    font-size: 40px;
+    font-family: -webkit-pictograph;
+    font-weight: 600;
   }
