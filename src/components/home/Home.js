@@ -10,7 +10,7 @@ import CategoryLayout from '../contents/Category';
 import SettingLayout from '../contents/Setting';
 
 const { Header, Sider, Content} = Layout;
-const { Text, Title } = Typography;
+const { Text } = Typography;
 const { SubMenu} = Menu;
 
 class SiderLayout extends React.Component {
