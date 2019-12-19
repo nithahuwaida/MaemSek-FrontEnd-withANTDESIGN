@@ -18,15 +18,10 @@ const ProductLayout = () => {
   }));
   // const { productList } = dataProducts;
 
-  const fetchDataProduct = async () => {
-    await dispatch(getProduct())
-    .then(res => {
-        console.log('berhasil');
-    }).catch(error => {
-        console.log(error);
-    })
-  }  
   useEffect(() => {
+    async function fetchDataProduct() {
+      await dispatch(getProduct())
+    }  
     fetchDataProduct()
   },[]);
 
@@ -168,6 +163,7 @@ const ProductLayout = () => {
     return (
       <Layout>
         <Content className="gutter-example" style={{background: 'white'}}>
+          <Button className='add-product' type='primary' icon="plus" >  Tambah Product</Button>
           <Table 
             rowKey={record => record.id}
             columns={columns} 

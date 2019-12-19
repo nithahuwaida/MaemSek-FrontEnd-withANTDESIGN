@@ -1,0 +1,20 @@
+/* Style AddProduct */
+.add-product{
+    margin-bottom: 15px;
+}
+
+/* Style AddCategory */
+.add-category{
+    margin-bottom: 15px;
+}
+.collection-create-form_last-form-item {
+    margin-bottom: 0;
+  }
+.ant-form-item-label {
+    display: inline-block;
+    overflow: hidden;
+    line-height: 39.9999px;
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: middle;
+}
