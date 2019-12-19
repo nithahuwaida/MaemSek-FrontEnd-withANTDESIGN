@@ -30,12 +30,12 @@ const AddCategory = props => {
     props.form.validateFields(async(err, values) => {
       if (!err) {
         setConfirmLoading(true);
-        const addDataProduct = await dispatch(postCategory(values))
-        const name_category = addDataProduct.value.data.response.name_category;
+        const addDataCategory = await dispatch(postCategory(values))
+        const name_category = addDataCategory.value.data.response.name_category;
         setConfirmLoading(false);
         setVisible(false);
         props.form.resetFields();
-        if (addDataProduct.value.data.status === 'success') {
+        if (addDataCategory.value.data.status === 'success') {
           notification.success({
             message: "Data Berhasil ditambahkan",
             description: `Berhasil menambah kategori ${name_category}.`
@@ -43,7 +43,7 @@ const AddCategory = props => {
         } else {
           notification.error({
             message: "Gagal menambah kategori",
-            description: addDataProduct.value.data.response
+            description: addDataCategory.value.data.response
           });
         }
       }
