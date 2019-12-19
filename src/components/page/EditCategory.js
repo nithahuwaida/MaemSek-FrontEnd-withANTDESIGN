@@ -29,7 +29,6 @@ const EditCategory = props => {
     e.preventDefault();
     props.form.validateFields(async(err, values) => {
       if (!err) {
-        console.log('valuesssss',values)
         setConfirmLoading(true);
         const editDataCategory = await dispatch(putCategory(values))
         const name_category = editDataCategory.value.data.response.name_category;
@@ -38,12 +37,12 @@ const EditCategory = props => {
         props.form.resetFields();
         if (editDataCategory.value.data.status === 'success') {
           notification.success({
-            message: "Data Berhasil ditambahkan",
-            description: `Berhasil menambah kategori ${name_category}.`
+            message: "Data Berhasil diubah",
+            description: `Berhasil mengubah kategori ${name_category}.`
           });
         } else {
           notification.error({
-            message: "Gagal menambah kategori",
+            message: "Gagal merubah kategori",
             description: editDataCategory.value.data.response
           });
         }
