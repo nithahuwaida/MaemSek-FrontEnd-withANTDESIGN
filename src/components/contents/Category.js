@@ -41,14 +41,16 @@ const CategoryLayout = () =>{
       const handleDelete = async (record) =>{
         const deleteCategoryId = await dispatch(deleteCategory(record));
         const name_category = deleteCategoryId.value.data.response.name_category;
+        // setLoading(false)
+
           if (deleteCategoryId.value.data.status === 'success') {
             notification.success({
-              message: "Berhasil",
+              message: "Data Berhasil dihapus",
               description: `Berhasil menghapus kategori ${name_category}.`
             });
           } else {
             notification.error({
-              message: "Gagal menghapus category",
+              message: "Gagal menghapus kategori",
               description: `Maaf kategori ${name_category} tidak dapat dihapus.`
             });
           }
@@ -56,10 +58,13 @@ const CategoryLayout = () =>{
       const deleteConfirm = (record) => {
         confirm({
           title: 'Apakah kamu ingin menghapus kategori ini?',
+          okText: 'Yes',
+          okType: 'danger',
+          cancelText: 'No',
           onOk() {
             handleDelete(record)
           },
-          onCancel() {console.log('cancel')},
+          onCancel() {},
         });
       }
     
@@ -138,7 +143,13 @@ const CategoryLayout = () =>{
           render: (record) =>
             <span>
               <Button type="primary" size="small" icon="edit" style={{marginRight:2}} ghost/>
-              <Button type="danger" size="small" icon="delete" onClick={()=>deleteConfirm(record)} ghost/>
+              <Button 
+                type="danger" 
+                size="small" 
+                icon="delete" 
+                onClick={()=>deleteConfirm(record)} 
+                ghost
+              />
             </span>
         },
       ];
