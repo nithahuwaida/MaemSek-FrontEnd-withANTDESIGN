@@ -6,6 +6,7 @@ import { getCategory, deleteCategory } from '../../public/redux/actions/category
 import './Style.css';
 
 import AddCategory from '../page/AddCategory';
+import EditCategory from '../page/EditCategory';
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -21,7 +22,7 @@ const CategoryLayout = () =>{
 
     const fetchDataCategory = async () => {
         await dispatch(getCategory())
-        .then(res => {
+        .then(() => {
             console.log('berhasil');
         }).catch(error => {
             console.log(error);
@@ -39,9 +40,8 @@ const CategoryLayout = () =>{
       const indexSearchText = searchText.searchText;
     
       const handleDelete = async (record) =>{
-        const deleteCategoryId = await dispatch(deleteCategory(record));
+        const deleteCategoryId = await dispatch(deleteCategory(record.id));
         const name_category = deleteCategoryId.value.data.response.name_category;
-        // setLoading(false)
 
           if (deleteCategoryId.value.data.status === 'success') {
             notification.success({
@@ -140,9 +140,9 @@ const CategoryLayout = () =>{
           title: 'Action',
           dataIndex: "id",
           key: 'action',
-          render: (record) =>
+          render: (id, record) =>
             <span>
-              <Button type="primary" size="small" icon="edit" style={{marginRight:2}} ghost/>
+              <EditCategory data={record}/>
               <Button 
                 type="danger" 
                 size="small" 

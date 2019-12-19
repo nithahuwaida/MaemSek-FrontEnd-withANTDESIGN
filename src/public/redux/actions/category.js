@@ -26,7 +26,7 @@ export function putCategory(data){
     return {
         type: 'PUT_CATEGORY',
         payload: axios.put (
-            `http://localhost:8080/categories/${data.id_product}`,
+            `http://localhost:8080/categories/${data.id}`,
             {
                 id_category : data.id,
                 name_category : data.name_category,
@@ -36,7 +36,6 @@ export function putCategory(data){
     };
 };
 export function deleteCategory(id){
-    console.log('id', id)
     const jwt = getJwt();
     return {
         type: 'DELETE_CATEGORY',
