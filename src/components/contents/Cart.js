@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import { Layout, Row, Col, Card, Avatar, Icon, Typography,
-         Button, Divider, Input, Result} from 'antd';
+         Button, Divider, Input, Result, Select} from 'antd';
 import './Style.css'
 import cartPlus from '../../image/shopping-cart-2.svg';
 import cart from '../../image/cart-1.svg';
@@ -10,42 +10,49 @@ import { getProduct } from '../../public/redux/actions/product';
 const { Content } = Layout;
 const { Meta } = Card;
 const { Text } = Typography;
+const { Option } = Select;
 const ButtonGroup = Button.Group;
 
 const CartLayout = () => {
   const initialFromState = {
-    search : ""
+    search : "",
+    sort : "desc"
   }
   const [input, setInput] = useState(initialFromState);
   const dispatch = useDispatch();
   
   const fetchDataProduct = async () => {
     await dispatch(getProduct())
-    .then(res => {
-        console.log('berhasil');
-    }).catch(error => {
-        console.log(error);
+    .then(() => {})
+    .catch(error => {
+      console.log(error);
     })
   }  
   useEffect(() => {
     fetchDataProduct()
   },[])
-
-  const { dataProduct } = useSelector(state => ({
-    dataProduct : state.product.productList
-  }));
-  const handleSearch = name_product => event => {
+  
+  const handleChange = name => event => {
     setInput({ 
       ...input,
-      [name_product] : event.target.value
+      [name]: typeof event != "string" ? event.target.value : event,
     });
   };
   
-  let searchProduct = dataProduct.filter((item) => {
+  const { dataProduct } = useSelector(state => ({
+    dataProduct : state.product.productList
+  }));
+
+  let sortedProduct = dataProduct.sort((a, b) => {
+    const isReversed = (input.sort === 'desc') ? 1 : -1;
+    return isReversed * a.name_product.localeCompare(b.name_product);
+  });
+
+  let searchProduct = sortedProduct.filter((item) => {
     // console.log('item', item)
-    console.log('item2 -1', item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1)
+    // console.log('item2 -1', item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1)
     const checkStatus = item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1;
-    console.log(checkStatus)
+    // console.log(checkStatus)
     if(checkStatus === true){
       return (
         item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1
@@ -54,6 +61,7 @@ const CartLayout = () => {
       return 0
     }
   })
+
     return (
       <Layout>
         <Content className="gutter-example" style={{background: 'white'}}>
@@ -61,11 +69,18 @@ const CartLayout = () => {
             <Col xs={16}>
               <div className='cart'>
                 <Input
-                  placeholder={`Cari nama Produk...`}
+                  placeholder={`Cari nama produk...`}
                   value={input.search}
-                  onChange={handleSearch("search")}
+                  onChange={handleChange("search")}
                   className= 'search'
                 />
+                <Select 
+                  className='select-sort'
+                  defaultValue='Urutkan nama produk berdasarkan...'
+                  onChange={handleChange("sort")}>
+                  <Option value="asc">nama produk (A-Z)</Option>
+                  <Option value="desc">nama produk (Z-A)</Option>
+                </Select>
               </div>
               { searchProduct !== 0 ? (searchProduct.map ((item, index)=> {
                 console.log('searchProduct', searchProduct.length)
@@ -127,9 +142,7 @@ const CartLayout = () => {
                             <span> 1pcs x 15.000 = 15.000</span>
                             <ButtonGroup className='button-group-product'>
                               <Button size="small"><Icon type="minus" key="minus" title='Kurang'/></Button>
-                              <Button size="small" className='button-qty'>
                                 <span className='text-qty'> 1 </span>
-                              </Button>
                               <Button size="small"><Icon type="plus" key="plus" title='Tambah'/></Button>
                             </ButtonGroup>
                           </div>

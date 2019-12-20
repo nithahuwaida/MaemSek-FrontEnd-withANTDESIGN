@@ -20,6 +20,16 @@
   display: 'block';
   background-color:#001529;
   color: white;
+  margin-right: 10px;
+}
+.select-sort{
+  width: 50%;
+  border-radius: 5px;
+  background-color: rgb(0, 21, 41);
+  color: #b7b5b5;
+}
+.ant-select-selection--single {
+  background-color: transparent;
 }
 
 /* Style Product*/
@@ -41,13 +51,13 @@
   margin-left: 5px;
   width: 100%;
 }
-.button-qty{
-  width: 50%;
-  cursor: auto;
-}
 
 .text-qty{
-  color: black;
+  color: white;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: 1px solid black;
+  background-color: black;
 }
 
 /* Style Setting */
