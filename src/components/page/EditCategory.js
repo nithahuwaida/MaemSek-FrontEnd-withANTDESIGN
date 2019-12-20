@@ -42,7 +42,7 @@ const EditCategory = props => {
           });
         } else {
           notification.error({
-            message: "Gagal merubah kategori",
+            message: `Gagal merubah kategori ${name_category}`,
             description: editDataCategory.value.data.response
           });
         }
@@ -72,7 +72,7 @@ const EditCategory = props => {
           confirmLoading={confirmLoading}
           onCancel={handleCancel}>
           <Form {...formItemLayout}>
-            <Form.Item label="Username" style={{ display: 'none' }}>
+            <Form.Item label="Id" style={{ display: 'none' }}>
               {getFieldDecorator('id', {
                 initialValue : props.data.id,
               })(<Input/>)}

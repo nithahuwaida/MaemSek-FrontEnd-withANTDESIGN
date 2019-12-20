@@ -42,7 +42,7 @@ const AddCategory = props => {
           });
         } else {
           notification.error({
-            message: "Gagal menambah kategori",
+            message: `Gagal menambah kategori ${name_category}`,
             description: addDataCategory.value.data.response
           });
         }

@@ -25,6 +25,29 @@
 /* Style Product*/
 .imageProduct-list{
   height: 10vmin;
+  width: 20vmin;
+}
+.ant-card-cover img {
+  border-radius: 2px 2px 0 0;
+  height: 150px;
+}
+.ant-card-body {
+    padding: 24px;
+    zoom: 1;
+    height: 160px;
+}
+.button-group-product{
+  margin-top: 5px; 
+  margin-left: 5px;
+  width: 100%;
+}
+.button-qty{
+  width: 50%;
+  cursor: auto;
+}
+
+.text-qty{
+  color: black;
 }
 
 /* Style Setting */

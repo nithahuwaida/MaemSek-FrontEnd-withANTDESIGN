@@ -56,7 +56,7 @@ const CategoryLayout = () =>{
       }
       const deleteConfirm = (record) => {
         confirm({
-          title: 'Apakah kamu ingin menghapus kategori ini?',
+          title: `Apakah kamu ingin menghapus kategori ${record.name_category}?`,
           okText: 'Iya',
           okType: 'danger',
           cancelText: 'Tidak',
