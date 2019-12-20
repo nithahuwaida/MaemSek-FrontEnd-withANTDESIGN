@@ -57,9 +57,9 @@ const CategoryLayout = () =>{
       const deleteConfirm = (record) => {
         confirm({
           title: 'Apakah kamu ingin menghapus kategori ini?',
-          okText: 'Yes',
+          okText: 'Iya',
           okType: 'danger',
-          cancelText: 'No',
+          cancelText: 'Tidak',
           onOk() {
             handleDelete(record)
           },
@@ -84,7 +84,7 @@ const CategoryLayout = () =>{
               size="small"
               style={{ width: 90, marginRight: 8 }}
             >
-              Search
+              Cari
             </Button>
             <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
               Reset

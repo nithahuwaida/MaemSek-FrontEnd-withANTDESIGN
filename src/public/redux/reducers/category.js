@@ -28,7 +28,11 @@ const initialState = {
           categoryList: action.payload.data.response,
         };
       case 'POST_CATEGORY_FULFILLED':
-      state.categoryList.push (action.payload.data.response);
+        if (action.payload.data.status === 'success') {
+          const newData = action.payload.data.response;
+          state.categoryList.push(newData);
+          console.log('newData',newData)
+        }
       return {
         ...state,
         isLoading: false,
