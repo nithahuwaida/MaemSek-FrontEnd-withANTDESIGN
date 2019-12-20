@@ -22,9 +22,8 @@ const CategoryLayout = () =>{
 
     const fetchDataCategory = async () => {
         await dispatch(getCategory())
-        .then(() => {
-            console.log('berhasil');
-        }).catch(error => {
+        .then(() => {})
+        .catch(error => {
             console.log(error);
         })
       }  
