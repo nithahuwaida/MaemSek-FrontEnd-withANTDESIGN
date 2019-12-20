@@ -31,3 +31,20 @@ export function getUserById(id){
         )
     }
 }
+
+export function putUserById(data){
+    const jwt = getJwt();
+    return{
+        type : 'PUT_USER',
+        payload : axios.put(
+            `http://localhost:8080/users/${data.id}`,
+            {
+                id : data.id,
+                fullname : data.fullname,
+                username : data.username,
+                email : data.email,
+            },
+            { headers: {"Authorization" : jwt} }
+        )
+    }
+}

@@ -27,16 +27,15 @@
   height: 10vmin;
 }
 
-/* Style Category */
-
 /* Style Setting */
 .profil-image{
-  min-height: 30vh;
-  min-width: 15vw;
+    min-height: 150px;
+    min-width: 20vw;
+    margin-top:20px;
 }
 .row-profil{
   padding-top: 20px;
-  padding-left: 30px;
+  padding-left: 10px;
 }
 .title{
   font-size:20px;

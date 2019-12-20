@@ -43,6 +43,14 @@ const initialState = {
           isFulfilled: true,
           userList: action.payload.data.response,
         };
+        case 'PUT_USER_FULFILLED':
+          let dataAfterEditById = action.payload.data.response;
+          return {
+            ...state,
+            isLoading: false,
+            isFulfilled: true,
+            userList: dataAfterEditById,
+          };
       default:
         return state;
     }
