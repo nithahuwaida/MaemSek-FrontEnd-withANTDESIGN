@@ -26,17 +26,17 @@ export function putProduct(data){
     return {
         type: 'PUT_PRODUCT',
         payload: axios.put (
-            `http://localhost:8080/products/${data.id_product}`,
+            `http://localhost:8080/products/${data.id}`,
             {
-                id_product : data.id,
+                id : data.id,
                 name_product : data.name_product,
                 desc_product : data.desc_product,
                 image_product : data.image_product,
-                id_category : data.id_category,
+                id_category : parseInt(data.id_category),
                 price_product : data.price_product,
-                quantity_product : parseInt(data.quantity_product),
+                quantity_product : data.quantity_product,
             },
-            { headers: {"Authorization" : jwt} },
+            { headers: {"Authorization" : jwt}},
         ),
     };
 };

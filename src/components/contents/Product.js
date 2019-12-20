@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Table, Input, Button, Icon, Modal} from 'antd';
+import { Layout, Table, Input, Button, Icon, Modal, notification} from 'antd';
 import Highlighter from 'react-highlight-words';
-import { getProduct } from '../../public/redux/actions/product';
+import { getProduct, deleteProduct } from '../../public/redux/actions/product';
+import { getCategory } from '../../public/redux/actions/category';
 import './Style.css';
+
+import AddProduct from '../page/AddProduct';
+import EditProduct from '../page/EditProduct';
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -13,29 +17,56 @@ const ProductLayout = () => {
   const [searchedColumn, setSearchedColumn] = useState('');
 
   const dispatch = useDispatch();
-  const { dataProducts } = useSelector( state=>({
-    dataProducts : state.product.productList
-  }));
-  // const { productList } = dataProducts;
 
+  const { productState, categoryList } = useSelector(state => ({
+    productState : state.product,
+    categoryList : state.category.categoryList
+  }));
+  const { productList, isLoading } = productState;
+
+  const fetchDataProduct = async () => {
+    await dispatch(getProduct())
+    .then(() => {})
+    .catch(error => {
+        console.log(error);
+    })
+  }  
   useEffect(() => {
-    async function fetchDataProduct() {
-      await dispatch(getProduct())
-    }  
-    fetchDataProduct()
-  },[]);
+    const timeOut = setTimeout(() => {
+      fetchDataProduct()
+      dispatch(getCategory());
+    }, 0);
+
+    return () => clearTimeout(timeOut);
+  }, []);
 
   const indexColumns = searchedColumn.input;
   const indexSearchText = searchText.searchText;
 
-  const deleteConfirm = () => {
+  const handleDelete = async (record) =>{
+    const deleteProductId = await dispatch(deleteProduct(record.id));
+    const name_product = deleteProductId.value.data.response.name_product;
+
+      if (deleteProductId.value.data.status === 'success') {
+        notification.success({
+          message: "Data Berhasil dihapus",
+          description: `Berhasil menghapus produk ${name_product}.`
+        });
+      } else {
+        notification.error({
+          message: "Gagal menghapus produk",
+          description: `Maaf produk ${name_product} tidak dapat dihapus.`
+        });
+      }
+  }
+  const deleteConfirm = (record) => {
     confirm({
-      title: 'Do you want to delete these items?',
-      content: 'When clicked the OK button, this dialog will be closed after 1 second',
+      title: `Apakah kamu ingin menghapus produk ${record.name_product}?`,
+      okText: 'Iya',
+      okType: 'danger',
+      cancelText: 'Tidak',
       onOk() {
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log('Oops errors!'));
+        handleDelete(record)
       },
       onCancel() {},
     });
@@ -45,9 +76,6 @@ const ProductLayout = () => {
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Input
-          // ref={node => {
-          //   searchInput = node;
-          // }}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
@@ -61,7 +89,7 @@ const ProductLayout = () => {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          Search
+          Cari
         </Button>
         <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
           Reset
@@ -76,11 +104,6 @@ const ProductLayout = () => {
         .toString()
         .toLowerCase()
         .includes(value.toLowerCase()),
-    // onFilterDropdownVisibleChange: visible => {
-    //   if (visible) {
-    //     setTimeout(() => searchInput.select());
-    //   }
-    // },
     render: text =>
     indexColumns === dataIndex ? (
         <Highlighter
@@ -153,21 +176,27 @@ const ProductLayout = () => {
         title: 'Action',
         dataIndex: "id",
         key: 'action',
-        render: () =>
+        render: (id, record) =>
           <span>
-            <Button type="primary" size="small" icon="edit" style={{marginRight:2}} ghost/>
-            <Button type="danger" size="small" icon="delete" onClick={deleteConfirm} ghost/>
+            <EditProduct dataProduct={record} dataCategory={categoryList}/>
+            <Button 
+            type="danger" 
+            size="small" 
+            icon="delete" 
+            onClick={()=>deleteConfirm(record)}
+            ghost/>
           </span>
       },
     ];
     return (
       <Layout>
         <Content className="gutter-example" style={{background: 'white'}}>
-          <Button className='add-product' type='primary' icon="plus" >  Tambah Product</Button>
+          <AddProduct data={categoryList}/>
           <Table 
             rowKey={record => record.id}
-            columns={columns} 
-            dataSource={dataProducts}
+            columns={columns}
+            loading={isLoading}
+            dataSource={productList}
             size={"small"} 
           />
         </Content>
