@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import { Layout, Row, Col, Card, Avatar, Icon, Typography,
-         Button, Divider, Input} from 'antd';
+         Button, Divider, Input, Result} from 'antd';
 import './Style.css'
 import cartPlus from '../../image/shopping-cart-2.svg';
 import cart from '../../image/cart-1.svg';
@@ -42,9 +42,18 @@ const CartLayout = () => {
   };
   
   let searchProduct = dataProduct.filter((item) => {
-    return item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1
+    // console.log('item', item)
+    console.log('item2 -1', item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1)
+    const checkStatus = item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1;
+    console.log(checkStatus)
+    if(checkStatus === true){
+      return (
+        item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1
+        )
+    }else{
+      return 0
+    }
   })
-
     return (
       <Layout>
         <Content className="gutter-example" style={{background: 'white'}}>
@@ -58,7 +67,7 @@ const CartLayout = () => {
                   className= 'search'
                 />
               </div>
-              { searchProduct.map ((item, index)=> {
+              { searchProduct !== 0 ? (searchProduct.map ((item, index)=> {
                 console.log('searchProduct', searchProduct.length)
                 return(
                   <Col key={index} className="gutter-row" xs={8}>
@@ -83,8 +92,16 @@ const CartLayout = () => {
                     </Card>
                   </Col>
                 );
-              })
-              }
+              }))
+              : (
+                console.log('searchProduct', searchProduct.length),
+                <Result
+                  status="404"
+                  title="Gagal"
+                  subTitle="Maaf, Data yang dicari tidak ditemukan"
+                  // extra={<Button type="primary">Back Home</Button>}
+                />
+              )}
             </Col>
             <Col xs={8}>
               <Card
@@ -102,15 +119,17 @@ const CartLayout = () => {
                     <Card style={{ width: 300, border: 0, padding: 0}}>
                       <Meta
                         avatar={
-                          <Avatar src="https://cdn2.tstatic.net/aceh/foto/bank/images/ilustrasi-ayam-goreng.jpg" />
+                          <Avatar size={70} src="https://cdn2.tstatic.net/aceh/foto/bank/images/ilustrasi-ayam-goreng.jpg" />
                         }
                         title="Nasi Ayam Rica-Rica"
                         description={
                           <div>
                             <span> 1pcs x 15.000 = 15.000</span>
-                            <ButtonGroup style={{marginTop: '5px'}}>
+                            <ButtonGroup className='button-group-product'>
                               <Button size="small"><Icon type="minus" key="minus" title='Kurang'/></Button>
-                              <Button size="small"><span style={{color: 'black'}}> 1 </span></Button>
+                              <Button size="small" className='button-qty'>
+                                <span className='text-qty'> 1 </span>
+                              </Button>
                               <Button size="small"><Icon type="plus" key="plus" title='Tambah'/></Button>
                             </ButtonGroup>
                           </div>
