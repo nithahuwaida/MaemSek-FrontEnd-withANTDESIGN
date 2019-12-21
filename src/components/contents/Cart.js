@@ -39,11 +39,11 @@ const CartLayout = () => {
     });
   };
   
-  const { dataProduct } = useSelector(state => ({
-    dataProduct : state.product.productList
-  }));
+  const { productList } = useSelector(
+    state => state.product
+  );
 
-  let sortedProduct = dataProduct.sort((a, b) => {
+  let sortedProduct = productList.sort((a, b) => {
     const isReversed = (input.sort === 'desc') ? 1 : -1;
     return isReversed * a.name_product.localeCompare(b.name_product);
   });
