@@ -1,11 +1,12 @@
 import React, { useEffect, useState} from 'react';
 import { Layout, Row, Col, Card, Avatar, Icon, Typography,
-         Button, Divider, Input, Result, Select} from 'antd';
+         Button, Divider, Input, Result, Select, InputNumber} from 'antd';
+import NumberFormat from 'react-number-format';
 import './Style.css'
 import cartPlus from '../../image/shopping-cart-2.svg';
 import cart from '../../image/cart-1.svg';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProduct } from '../../public/redux/actions/product';
+import { addItemInOrder, removeItemInOrder, getProductInOrder, quantityChange} from '../../public/redux/actions/order';
 
 const { Content } = Layout;
 const { Meta } = Card;
@@ -16,13 +17,14 @@ const ButtonGroup = Button.Group;
 const CartLayout = () => {
   const initialFromState = {
     search : "",
-    sort : "desc"
+    sort : ""
   }
   const [input, setInput] = useState(initialFromState);
+  const [isSelected, setIsSelected] = useState(true);
   const dispatch = useDispatch();
   
   const fetchDataProduct = async () => {
-    await dispatch(getProduct())
+    await dispatch(getProductInOrder())
     .then(() => {})
     .catch(error => {
       console.log(error);
@@ -39,20 +41,17 @@ const CartLayout = () => {
     });
   };
   
-  const { productList } = useSelector(
-    state => state.product
+  const { detailOrder, productListCart, total_price } = useSelector(
+    state => state.order
   );
 
-  let sortedProduct = productList.sort((a, b) => {
+  let sortedProduct = productListCart.sort((a, b) => {
     const isReversed = (input.sort === 'desc') ? 1 : -1;
     return isReversed * a.name_product.localeCompare(b.name_product);
   });
 
   let searchProduct = sortedProduct.filter((item) => {
-    // console.log('item', item)
-    // console.log('item2 -1', item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1)
     const checkStatus = item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1;
-    // console.log(checkStatus)
     if(checkStatus === true){
       return (
         item.name_product.toLowerCase().indexOf(input.search.toLowerCase()) !== -1
@@ -62,6 +61,15 @@ const CartLayout = () => {
     }
   })
 
+  const handleSelectedProduct = async product => {
+    if (!product.isSelected) await dispatch(addItemInOrder(product));
+    else await dispatch(removeItemInOrder(product));
+  };
+  const handleQuantityChange = id => async value => {
+    await dispatch(quantityChange({ id, quantity: value }));
+  };
+
+  console.log('detailOrder', detailOrder)
     return (
       <Layout>
         <Content className="gutter-example" style={{background: 'white'}}>
@@ -82,7 +90,7 @@ const CartLayout = () => {
                   <Option value="desc">nama produk (Z-A)</Option>
                 </Select>
               </div>
-              { searchProduct !== 0 ? (searchProduct.map ((item, index)=> {
+              { searchProduct.lenght !== 0 ? (searchProduct.map ((item, index)=> {
                 console.log('searchProduct', searchProduct.length)
                 return(
                   <Col key={index} className="gutter-row" xs={8}>
@@ -95,33 +103,64 @@ const CartLayout = () => {
                         />
                       }
                       actions={[
-                        <span style={{color: 'black'}}>Stok : {item.quantity_product}pcs </span>,
-                        <Avatar style={{cursor: 'pointer'}} shape="square" src={cartPlus} title='Tambah ke keranjang' />
+                        <span style={{color: 'black'}}>Stok : {item.quantity_product} pcs </span>,
+                        <Avatar 
+                          onClick={() => handleSelectedProduct(item)}
+                          // isselected={()=>isSelected(false)}
+                          style={{cursor: 'pointer'}}
+                          className='add-cart'
+                          shape="square" 
+                          src={cartPlus} 
+                          title='Tambah ke keranjang' />
                       ]}
                     >
                       <Meta
                         title= {item.name_product}
                         description= {item.desc_product}
+                        className='meta-card'
                       />
-                      <br/><span><b> Rp. {item.price_product}</b></span>
+                      <NumberFormat
+                        value={item.price_product}
+                        displayType={"text"}
+                        thousandSeparator={"."}
+                        decimalSeparator={","}
+                        prefix={"Rp"}
+                        className='number-format'
+                      />
                     </Card>
                   </Col>
                 );
               }))
               : (
-                console.log('searchProduct', searchProduct.length),
                 <Result
                   status="404"
                   title="Gagal"
                   subTitle="Maaf, Data yang dicari tidak ditemukan"
-                  // extra={<Button type="primary">Back Home</Button>}
                 />
               )}
             </Col>
             <Col xs={8}>
               <Card
                 actions={[
-                  <span style={{color: 'black'}}>Total  :  </span>,
+                  <span 
+                    style={{
+                      color: 'white',
+                      width: '100%',
+                      background: 'rgb(24, 144, 255)',
+                      padding: '10px',
+                      display: 'block',
+                      fontSize: 'large',
+                    }}>
+                    Total  :    
+                    <NumberFormat
+                      value={total_price}
+                      displayType={"text"}
+                      thousandSeparator={"."}
+                      decimalSeparator={","}
+                      prefix={"Rp"}
+                      className='number-format-cart'
+                    />  
+                  </span>,
                 ]}
               >
                 <div className='cart'>
@@ -131,27 +170,46 @@ const CartLayout = () => {
                 <Divider style={{margin:'7px'}}/>
                 <Row gutter={[16, 16]} >
                   <Col xs={24}>
-                    <Card style={{ width: 300, border: 0, padding: 0}}>
+                  {detailOrder.length!== 0 ? 
+                  detailOrder.map ((item, index)=> {
+                    return(
+                    <Card key={index} className='card-cart' style={{border: 0, padding: 0, height:110}}>
+                      <Button 
+                        type='primary' 
+                        shape='square'
+                        size='small'
+                        icon='close'
+                        title='cancel'
+                        onClick={async () => await dispatch(removeItemInOrder(item))}
+                        style={{float:'right'}}/>
                       <Meta
                         avatar={
-                          <Avatar size={70} src="https://cdn2.tstatic.net/aceh/foto/bank/images/ilustrasi-ayam-goreng.jpg" />
+                          <Avatar size={70} src={item.product_image} />
                         }
-                        title="Nasi Ayam Rica-Rica"
+                        title={item.product_name}
                         description={
                           <div>
-                            <span> 1pcs x 15.000 = 15.000</span>
-                            <ButtonGroup className='button-group-product'>
-                              <Button size="small"><Icon type="minus" key="minus" title='Kurang'/></Button>
-                                <span className='text-qty'> 1 </span>
-                              <Button size="small"><Icon type="plus" key="plus" title='Tambah'/></Button>
-                            </ButtonGroup>
+                              <InputNumber
+                                min={1}
+                                max={item.oldQuantity}
+                                value={item.quantity}
+                                className='quantity-input'
+                                onChange={handleQuantityChange(item.product_id)}
+                              />
+                              <span>pcs x {item.oldPrice} = {item.sub_total}</span>
                           </div>
                         }
                       />
                     </Card>
+                  )})
+                  : null
+                }
                   </Col>
                 </Row>
               </Card>
+              {detailOrder.length!== 0 &&
+                <Button className='button-checkout'>TRANSAKSI SELESAI</Button>
+              }
             </Col>
           </Row>
         </Content>
