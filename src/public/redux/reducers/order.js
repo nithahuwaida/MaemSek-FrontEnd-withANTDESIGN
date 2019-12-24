@@ -36,7 +36,7 @@ const order = (state = initialState, action) => {
                 productListCart: productListCart
             };
         case "ADD_ITEM_IN_ORDER":
-            let sumCart
+            // let sumCart
             // let afterAddCart = state.detailOrder.map(item => ({...item}));
             // const filterOrderList = state.detailOrder.filter(value => value.id === action.product.id)
             // if(filterOrderList.length > 0){
@@ -56,6 +56,11 @@ const order = (state = initialState, action) => {
             //     sumCart = action.product.subTotal
             //     afterAddCart.push(action.product)
             // }
+            // return {
+            //     ...state,
+            //     detailOrder: afterAddCart,
+            //     total_price: state.total_price + sumCart
+            // };
             state.detailOrder.push({
                 product_id: action.product.id,
                 product_name: action.product.name_product,
@@ -70,11 +75,6 @@ const order = (state = initialState, action) => {
                 return { ...action.product, isselected: true };
                 return item;
             });
-            // return {
-            //     ...state,
-            //     detailOrder: afterAddCart,
-            //     total_price: state.total_price + sumCart
-            // };
             return {
                 ...state,
                 detailOrder: state.detailOrder,
@@ -94,7 +94,7 @@ const order = (state = initialState, action) => {
             );
             const afterEditRemove = state.productListCart.map(item => {
                 if (Number(item.id) === Number(action.product.id))
-                return { ...item, isSelected: false };
+                return { ...item, isselected: false };
                 return item;
             });
         
@@ -126,15 +126,6 @@ const order = (state = initialState, action) => {
                 detailOrder: changeQuantity,
                 total_price: totalPrice
             };
-        // case 'REMOVE_ITEM_IN_ORDER':
-        //     const afterCartRemove = state.detailOrder.filter(item => item.id !== action.id)
-        //     const cartRemove = state.detailOrder.filter(item => item.id === action.id)[0]
-        //     const lastSubtract = cartRemove.subTotal
-        //     return {
-        //         ...state,
-        //         detailOrder: afterCartRemove,
-        //         total_price: state.total_price - lastSubtract
-        //     }
         default:
         return state;
     }

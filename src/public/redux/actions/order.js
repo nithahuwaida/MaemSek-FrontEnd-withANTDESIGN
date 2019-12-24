@@ -16,13 +16,7 @@ export const addItemInOrder = product => {
         product 
     };
 };
-  
-// export const removeItemInOrder = id => {
-//     return { 
-//         type: "REMOVE_ITEM_IN_ORDER", 
-//         id 
-//     };
-// };  
+ 
 export const removeItemInOrder = product => {
     return { 
         type: "REMOVE_ITEM_IN_ORDER", 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { Layout, Row, Col, Card, Avatar, Icon, Typography,
+import { Layout, Row, Col, Card, Avatar, Typography, Icon,
          Button, Divider, Input, Result, Select, InputNumber} from 'antd';
 import NumberFormat from 'react-number-format';
 import './Style.css'
@@ -12,15 +12,13 @@ const { Content } = Layout;
 const { Meta } = Card;
 const { Text } = Typography;
 const { Option } = Select;
-const ButtonGroup = Button.Group;
 
 const CartLayout = () => {
   const initialFromState = {
     search : "",
-    sort : ""
+    sort : "",
   }
   const [input, setInput] = useState(initialFromState);
-  const [isSelected, setIsSelected] = useState(true);
   const dispatch = useDispatch();
   
   const fetchDataProduct = async () => {
@@ -62,8 +60,12 @@ const CartLayout = () => {
   })
 
   const handleSelectedProduct = async product => {
-    if (!product.isSelected) await dispatch(addItemInOrder(product));
-    else await dispatch(removeItemInOrder(product));
+    if (!product.isselected){
+      await dispatch(addItemInOrder(product));
+    }
+    else {
+      await dispatch(removeItemInOrder(product));
+    }
   };
   const handleQuantityChange = id => async value => {
     await dispatch(quantityChange({ id, quantity: value }));
@@ -76,15 +78,17 @@ const CartLayout = () => {
           <Row gutter={[16, 16]} >
             <Col xs={16}>
               <div className='cart'>
+                <Icon type='search' className='icon-search'/>
                 <Input
                   placeholder={`Cari nama produk...`}
                   value={input.search}
                   onChange={handleChange("search")}
                   className= 'search'
                 />
+                <span className='text-sort'>Sort By</span>
                 <Select 
                   className='select-sort'
-                  defaultValue='Urutkan nama produk berdasarkan...'
+                  defaultValue='Urutkan nama produk..'
                   onChange={handleChange("sort")}>
                   <Option value="asc">nama produk (A-Z)</Option>
                   <Option value="desc">nama produk (Z-A)</Option>
@@ -102,17 +106,24 @@ const CartLayout = () => {
                           alt={item.name_product}
                         />
                       }
-                      actions={[
+                      actions =
+                      { item.isselected !== true ? 
+                            [
+                              <span style={{color: 'black'}}>Stok : {item.quantity_product} pcs </span>,
+                              <Avatar 
+                                onClick={() => handleSelectedProduct(item)}
+                                style={{cursor: 'pointer'}}
+                                className='add-cart'
+                                shape="square" 
+                                src={cartPlus} 
+                                title='Tambah ke keranjang' />
+                            ]
+                      :
+                      [
                         <span style={{color: 'black'}}>Stok : {item.quantity_product} pcs </span>,
-                        <Avatar 
-                          onClick={() => handleSelectedProduct(item)}
-                          // isselected={()=>isSelected(false)}
-                          style={{cursor: 'pointer'}}
-                          className='add-cart'
-                          shape="square" 
-                          src={cartPlus} 
-                          title='Tambah ke keranjang' />
-                      ]}
+                        <Icon style={{fontSize:30}} type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
+                      ]
+                    }
                     >
                       <Meta
                         title= {item.name_product}
@@ -176,7 +187,7 @@ const CartLayout = () => {
                     <Card key={index} className='card-cart' style={{border: 0, padding: 0, height:110}}>
                       <Button 
                         type='primary' 
-                        shape='square'
+                        shape='circle'
                         size='small'
                         icon='close'
                         title='cancel'
@@ -184,7 +195,7 @@ const CartLayout = () => {
                         style={{float:'right'}}/>
                       <Meta
                         avatar={
-                          <Avatar size={70} src={item.product_image} />
+                          <Avatar size={50} src={item.product_image} />
                         }
                         title={item.product_name}
                         description={
