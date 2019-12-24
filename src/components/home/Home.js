@@ -4,6 +4,7 @@ import { Layout, Menu, Icon, Dropdown, Typography} from 'antd';
 import { getUserEmail } from '../helpers/Helpers';
 import './Home.css';
 
+import DashboardLayout from '../contents/Dashboard';
 import CartLayout from '../contents/Cart';
 import ProductLayout from '../contents/Product';
 import CategoryLayout from '../contents/Category';
@@ -130,6 +131,7 @@ class SiderLayout extends React.Component {
                 minHeight: 280,
               }}
             >
+              <Route path="/dashboard" component={DashboardLayout} />
               <Route exact path="/" component={CartLayout} />
               <Route path="/product" component={ProductLayout} />
               <Route path="/category" component={CategoryLayout} />

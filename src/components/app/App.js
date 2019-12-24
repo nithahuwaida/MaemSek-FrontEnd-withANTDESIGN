@@ -16,10 +16,11 @@ function App() {
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>
             <Authentication>
+              <Route path="/dashboard" component={Home}/>
               <Route exact path="/" component={Home}/>
-              <Route exact path="/product" component={Home}/>
-              <Route exact path="/category" component={Home}/>
-              <Route exact path="/setting" component={Home}/>
+              <Route path="/product" component={Home}/>
+              <Route path="/category" component={Home}/>
+              <Route path="/setting" component={Home}/>
             </Authentication>
           </Switch>
         </BrowserRouter>
