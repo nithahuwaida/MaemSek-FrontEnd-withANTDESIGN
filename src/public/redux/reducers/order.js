@@ -21,7 +21,7 @@ const order = (state = initialState, action) => {
             ...state,
             isLoading: false,
             isRejected: true,
-            };
+            }
         case "GET_PRODUCT_IN_ORDER_FULFILLED":
             const productListCart =
                 action.payload.status === 200
@@ -125,6 +125,22 @@ const order = (state = initialState, action) => {
                 ...state,
                 detailOrder: changeQuantity,
                 total_price: totalPrice
+            };
+        case "CHECKOUT_IN_ORDER_FULFILLED":
+            return {
+                ...state,
+                isLoading: false,
+                isRejected: false,
+                detailOrder: [],
+                productList: state.productList.map(item => ({...item, isSelected: false})),
+                total_price: 0,
+                statusInput: action.payload.data
+            };
+        case "GET_RECENT_ORDER_FULFILLED":
+            return {
+                ...state,
+                isLoading: false,
+                recentOrderList: action.payload.data
             };
         default:
         return state;

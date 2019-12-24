@@ -6,7 +6,9 @@ import './Style.css'
 import cartPlus from '../../image/shopping-cart-2.svg';
 import cart from '../../image/cart-1.svg';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItemInOrder, removeItemInOrder, getProductInOrder, quantityChange} from '../../public/redux/actions/order';
+import { getUserId } from '../helpers/Helpers';
+import { addItemInOrder, removeItemInOrder, getProductInOrder,
+         quantityChange, checkoutOrder} from '../../public/redux/actions/order';
 
 const { Content } = Layout;
 const { Meta } = Card;
@@ -20,7 +22,10 @@ const CartLayout = () => {
   }
   const [input, setInput] = useState(initialFromState);
   const dispatch = useDispatch();
-  
+  const { detailOrder, productListCart, total_price } = useSelector(
+    state => state.order
+  );
+
   const fetchDataProduct = async () => {
     await dispatch(getProductInOrder())
     .then(() => {})
@@ -39,10 +44,6 @@ const CartLayout = () => {
     });
   };
   
-  const { detailOrder, productListCart, total_price } = useSelector(
-    state => state.order
-  );
-
   let sortedProduct = productListCart.sort((a, b) => {
     const isReversed = (input.sort === 'desc') ? 1 : -1;
     return isReversed * a.name_product.localeCompare(b.name_product);
@@ -60,18 +61,36 @@ const CartLayout = () => {
   })
 
   const handleSelectedProduct = async product => {
-    if (!product.isselected){
-      await dispatch(addItemInOrder(product));
-    }
-    else {
-      await dispatch(removeItemInOrder(product));
-    }
+    if (!product.isselected){await dispatch(addItemInOrder(product));}
+    else {await dispatch(removeItemInOrder(product));}
   };
   const handleQuantityChange = id => async value => {
     await dispatch(quantityChange({ id, quantity: value }));
   };
 
-  console.log('detailOrder', detailOrder)
+  const submitCheckoutOrder = async () => {
+    const user_id = getUserId();
+    await dispatch(
+      checkoutOrder({
+        user_id: user_id,
+        total_price: total_price,
+        detail_order: detailOrder
+      })
+    );
+    // console.log(submitCheckout.value.data, "submit value");
+    // if (submitCheckout.value.data.status === 200) {
+    //   notification.success({
+    //     message: "Berhasil",
+    //     description: `Transaksi Berhasil`
+    //   });
+    // } else {
+    //   notification.error({
+    //     message: "Gagal",
+    //     description: `Transaksi gagal, Silakan coba lagi.`
+    //   });
+    // }
+  };
+
     return (
       <Layout>
         <Content className="gutter-example" style={{background: 'white'}}>
@@ -95,7 +114,6 @@ const CartLayout = () => {
                 </Select>
               </div>
               { searchProduct.lenght !== 0 ? (searchProduct.map ((item, index)=> {
-                console.log('searchProduct', searchProduct.length)
                 return(
                   <Col key={index} className="gutter-row" xs={8}>
                     <Card
@@ -219,7 +237,12 @@ const CartLayout = () => {
                 </Row>
               </Card>
               {detailOrder.length!== 0 &&
-                <Button className='button-checkout'>TRANSAKSI SELESAI</Button>
+                <Button 
+                  className='button-checkout'
+                  onClick={submitCheckoutOrder}
+                >
+                  TRANSAKSI SELESAI
+                </Button>
               }
             </Col>
           </Row>
