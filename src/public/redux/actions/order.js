@@ -35,14 +35,14 @@ export const quantityChange = product => {
 export const checkoutOrder = (order) => {
     const jwt = getJwt();
     console.log('order',order)
-    // return {
-    //     type: "CHECKOUT_IN_ORDER",
-    //     payload: axios.post(
-    //         'http://localhost:8080/transactions', 
-    //         order,
-    //         {headers: {'Authorization': jwt}}
-    //     )
-    // }
+    return {
+        type: "CHECKOUT_IN_ORDER",
+        payload: axios.post(
+            'http://localhost:8080/transactions', 
+            order,
+            {headers: {'Authorization': jwt}}
+        )
+    }
 };
 
 export const getRecentOrder = () => {

@@ -89,6 +89,9 @@
 .ant-card-body .card-cart {
   width: 350px;
 }
+.ant-card-actions .card-cart{
+  height: 57px;
+}
 
 /* Style Product*/
 .imageProduct-list{

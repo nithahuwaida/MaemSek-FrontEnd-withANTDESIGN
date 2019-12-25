@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { Layout, Row, Col, Card, Avatar, Typography, Icon,
+import { Layout, Row, Col, Card, Avatar, Typography, Icon, notification,
          Button, Divider, Input, Result, Select, InputNumber} from 'antd';
 import NumberFormat from 'react-number-format';
 import './Style.css'
@@ -21,6 +21,7 @@ const CartLayout = () => {
     sort : "",
   }
   const [input, setInput] = useState(initialFromState);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { detailOrder, productListCart, total_price } = useSelector(
     state => state.order
@@ -65,30 +66,30 @@ const CartLayout = () => {
     else {await dispatch(removeItemInOrder(product));}
   };
   const handleQuantityChange = id => async value => {
-    await dispatch(quantityChange({ id, quantity: value }));
+    await dispatch(quantityChange({ id, order_qty: value }));
   };
 
   const submitCheckoutOrder = async () => {
     const user_id = getUserId();
-    await dispatch(
-      checkoutOrder({
+    setLoading(true)
+    const submitCheckoutOrder = await dispatch(checkoutOrder({
         user_id: user_id,
         total_price: total_price,
         detail_order: detailOrder
       })
     );
-    // console.log(submitCheckout.value.data, "submit value");
-    // if (submitCheckout.value.data.status === 200) {
-    //   notification.success({
-    //     message: "Berhasil",
-    //     description: `Transaksi Berhasil`
-    //   });
-    // } else {
-    //   notification.error({
-    //     message: "Gagal",
-    //     description: `Transaksi gagal, Silakan coba lagi.`
-    //   });
-    // }
+    setLoading(false)
+    if (submitCheckoutOrder.value.data.status === 'success') {
+      notification.success({
+        message: "Berhasil",
+        description: `Transaksi Berhasil`
+      });
+    } else {
+      notification.error({
+        message: "Gagal",
+        description: `Transaksi gagal, Silakan coba lagi.`
+      });
+    }
   };
 
     return (
@@ -125,7 +126,8 @@ const CartLayout = () => {
                         />
                       }
                       actions =
-                      { item.isselected !== true ? 
+                      { item.quantity_product !== 0 ?
+                        item.isselected === false ? 
                             [
                               <span style={{color: 'black'}}>Stok : {item.quantity_product} pcs </span>,
                               <Avatar 
@@ -140,6 +142,11 @@ const CartLayout = () => {
                       [
                         <span style={{color: 'black'}}>Stok : {item.quantity_product} pcs </span>,
                         <Icon style={{fontSize:30}} type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
+                      ]
+                      :
+                      [
+                        <span style={{color: 'black'}}>Stok : {item.quantity_product} pcs </span>,
+                        <span style={{color: 'red'}}>Stok Habis</span>
                       ]
                     }
                     >
@@ -221,11 +228,11 @@ const CartLayout = () => {
                               <InputNumber
                                 min={1}
                                 max={item.oldQuantity}
-                                value={item.quantity}
+                                value={item.order_qty}
                                 className='quantity-input'
                                 onChange={handleQuantityChange(item.product_id)}
                               />
-                              <span>pcs x {item.oldPrice} = {item.sub_total}</span>
+                              <span>pcs x {item.price_product} = {item.sub_total}</span>
                           </div>
                         }
                       />
@@ -240,6 +247,7 @@ const CartLayout = () => {
                 <Button 
                   className='button-checkout'
                   onClick={submitCheckoutOrder}
+                  loading={loading}
                 >
                   TRANSAKSI SELESAI
                 </Button>

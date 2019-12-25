@@ -66,9 +66,9 @@ const order = (state = initialState, action) => {
                 product_name: action.product.name_product,
                 product_image: action.product.image_product,
                 sub_total: action.product.price_product,
-                quantity: 1,
-                oldPrice: action.product.price_product,
-                oldQuantity: action.product.quantity_product
+                order_qty: 1,
+                price_product: action.product.price_product,
+                oldQuantity: action.product.order_qty_product
             });
             const afterAddCart = state.productListCart.map(item => {
                 if (item.id === Number(action.product.id))
@@ -85,15 +85,15 @@ const order = (state = initialState, action) => {
             const removeProduct = state.detailOrder.find(
                 item =>
                 Number(item.product_id) ===
-                Number(action.product.id || action.product.product_id)
+                Number(action.product.product_id)
             );
             const afterRemove = state.detailOrder.filter(
                 item =>
                 Number(item.product_id) !==
-                Number(action.product.id || action.product.product_id)
+                Number(action.product.product_id)
             );
             const afterEditRemove = state.productListCart.map(item => {
-                if (Number(item.id) === Number(action.product.id))
+                if (Number(item.id) === Number(action.product.product_id))
                 return { ...item, isselected: false };
                 return item;
             });
@@ -110,8 +110,8 @@ const order = (state = initialState, action) => {
                 if (Number(item.product_id) === Number(action.product.id))
                 return {
                     ...item,
-                    quantity: action.product.quantity,
-                    sub_total: item.oldPrice * action.product.quantity
+                    order_qty: action.product.order_qty,
+                    sub_total: item.price_product * action.product.order_qty
                 };
                 return item;
             });
@@ -127,12 +127,26 @@ const order = (state = initialState, action) => {
                 total_price: totalPrice
             };
         case "CHECKOUT_IN_ORDER_FULFILLED":
+            const updateProductListCart = action.payload.data.response.updateProduct;
+            // const updateProductListCart = state.productListCart.map(
+            //     item => {
+            //         action.payload.data.response.newProdTransData.map(
+            //             item2 =>{
+            //                 if(item2.id === item.product_id){
+            //                     item.order_qty = item2.order_qty
+            //                 }
+            //             }
+            //         )
+            //     }
+            // );
+            console.log(updateProductListCart)
             return {
                 ...state,
                 isLoading: false,
                 isRejected: false,
                 detailOrder: [],
-                productList: state.productList.map(item => ({...item, isSelected: false})),
+                // productListCart: ProductListCart.map(item => ({ ...item, isselected: false})),
+                productListCart: updateProductListCart.map(item => ({ ...item, isselected: false})),
                 total_price: 0,
                 statusInput: action.payload.data
             };
