@@ -7,8 +7,8 @@ import './Style.css';
 const { Option } = Select;
 
 const AddCategory = props => {
-  const [visible, setVisible] = useState(false)
-  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const { getFieldDecorator } = props.form;
   const dispatch = useDispatch();
 
@@ -103,8 +103,9 @@ const AddCategory = props => {
             <Form.Item label="Stok" style={{marginBottom: 0}}>
                 {getFieldDecorator('quantity_product',{
                 initialValue: 1,
-                })
-                (<InputNumber min={1}/>)}
+                })(
+                  <InputNumber min={1}/>
+                )}
                 <span className="ant-form-text"> pcs</span>
             </Form.Item>
             <Form.Item label="Kategori">
