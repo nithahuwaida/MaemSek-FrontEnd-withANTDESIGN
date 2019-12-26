@@ -6,6 +6,15 @@
   padding: 20px;
   padding-right: 20px;
   padding-left: 20px;
+  color:white;
+}
+.title-grafik{
+  text-align: center;
+  margin-top: 15px;
+  font-size: 40px;
+}
+.chart{
+  margin: 0px 50px 50px 50px;
 }
 
 /* Style Cart */
