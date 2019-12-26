@@ -68,7 +68,7 @@ const order = (state = initialState, action) => {
                 sub_total: action.product.price_product,
                 order_qty: 1,
                 price_product: action.product.price_product,
-                oldQuantity: action.product.order_qty_product
+                oldQuantity: action.product.quantity_product
             });
             const afterAddCart = state.productListCart.map(item => {
                 if (item.id === Number(action.product.id))
@@ -128,24 +128,11 @@ const order = (state = initialState, action) => {
             };
         case "CHECKOUT_IN_ORDER_FULFILLED":
             const updateProductListCart = action.payload.data.response.updateProduct;
-            // const updateProductListCart = state.productListCart.map(
-            //     item => {
-            //         action.payload.data.response.newProdTransData.map(
-            //             item2 =>{
-            //                 if(item2.id === item.product_id){
-            //                     item.order_qty = item2.order_qty
-            //                 }
-            //             }
-            //         )
-            //     }
-            // );
-            console.log(updateProductListCart)
             return {
                 ...state,
                 isLoading: false,
                 isRejected: false,
                 detailOrder: [],
-                // productListCart: ProductListCart.map(item => ({ ...item, isselected: false})),
                 productListCart: updateProductListCart.map(item => ({ ...item, isselected: false})),
                 total_price: 0,
                 statusInput: action.payload.data

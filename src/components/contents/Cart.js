@@ -114,7 +114,7 @@ const CartLayout = () => {
                   <Option value="desc">nama produk (Z-A)</Option>
                 </Select>
               </div>
-              { searchProduct.lenght !== 0 ? (searchProduct.map ((item, index)=> {
+              { searchProduct.length !== 0 ? (searchProduct.map ((item, index)=> {
                 return(
                   <Col key={index} className="gutter-row" xs={8}>
                     <Card
