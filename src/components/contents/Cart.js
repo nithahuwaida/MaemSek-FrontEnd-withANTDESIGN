@@ -23,7 +23,7 @@ const CartLayout = () => {
   const [input, setInput] = useState(initialFromState);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { detailOrder, productListCart, total_price } = useSelector(
+  const { detailOrder, productListCart, total_price} = useSelector(
     state => state.order
   );
 
@@ -77,19 +77,26 @@ const CartLayout = () => {
         total_price: total_price,
         detail_order: detailOrder
       })
-    );
-    setLoading(false)
-    if (submitCheckoutOrder.value.data.status === 'success') {
-      notification.success({
-        message: "Berhasil",
-        description: `Transaksi Berhasil`
-      });
-    } else {
+    ).then(submitCheckoutOrder =>{
+      setLoading(false)
+      if (submitCheckoutOrder.value.data.status === 'success') {
+        notification.success({
+          message: "Berhasil",
+          description: `Transaksi Berhasil`
+        });
+      } else {
+        notification.error({
+          message: "Gagal",
+          description: `Transaksi gagal, Silakan coba lagi.`
+        });
+      }
+    }).catch((error) =>{
+      setLoading(false)
       notification.error({
         message: "Gagal",
         description: `Transaksi gagal, Silakan coba lagi.`
       });
-    }
+    })
   };
 
     return (
@@ -171,7 +178,7 @@ const CartLayout = () => {
                 <Result
                   status="404"
                   title="Gagal"
-                  subTitle="Maaf, Data yang dicari tidak ditemukan"
+                  subTitle="Maaf, Data tidak ditemukan"
                 />
               )}
             </Col>
