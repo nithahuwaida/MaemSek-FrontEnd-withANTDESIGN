@@ -63,3 +63,6 @@ MaemSek is a Point of Sale application in the form of a website built using Reac
 <p align="center">
 <img width="400" height="192" src="https://user-images.githubusercontent.com/29118699/71472872-42dec800-2807-11ea-8da7-3168ae32c48f.PNG">    <img width="400" height="192" src="https://user-images.githubusercontent.com/29118699/71472873-43775e80-2807-11ea-806e-1c9c854da5c9.PNG">
 </p>
+<p align="center">
+<img width="400" height="192" src="https://user-images.githubusercontent.com/29118699/71478217-0cae4200-2821-11ea-873d-a136c26e5167.PNG">
+</p>
