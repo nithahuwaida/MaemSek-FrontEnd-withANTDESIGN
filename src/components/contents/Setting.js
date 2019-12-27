@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserId } from '../helpers/Helpers';
 import { Layout, Row, Col, Typography, Descriptions, Avatar, Skeleton} from 'antd';
 import { getUserById } from '../../public/redux/actions/user';
-import fotoProfil from '../../image/fotoProfil.png'
+import fotoProfil from '../../image/fotoProfil.jpg'
 import Moment from 'moment';
 import './Style.css'
 
