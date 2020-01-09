@@ -6,7 +6,7 @@ export const getProductInOrder = () => {
     return {
       type: "GET_PRODUCT_IN_ORDER",
       payload: axios.get(
-        'http://localhost:8080/products', 
+        `${process.env.REACT_APP_BASE_URL}/products`, 
         {headers: {'Authorization': jwt}}
     )}
 };
@@ -38,7 +38,7 @@ export const checkoutOrder = (order) => {
     return {
         type: "CHECKOUT_IN_ORDER",
         payload: axios.post(
-            'http://localhost:8080/transactions', 
+            `${process.env.REACT_APP_BASE_URL}/transactions`, 
             order,
             {headers: {'Authorization': jwt}}
         )

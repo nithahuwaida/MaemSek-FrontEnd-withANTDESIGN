@@ -18,7 +18,7 @@ class Autentication extends Component{
             localStorage.removeItem('token-jwt');
             this.props.history.push('/login');
         }else{
-            // axios.get(`http://localhost:8080/products`, {headers: {"Authorization": jwt}})
+            // axios.get(`${process.env.REACT_APP_BASE_URL}/products`, {headers: {"Authorization": jwt}})
             // .then(res => {
             //     this.setState({
             //     data: res.data.response
