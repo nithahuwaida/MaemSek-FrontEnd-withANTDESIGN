@@ -6,7 +6,7 @@ export const getInformation = () => {
     return {
         type: 'GET_INFO',
         payload: axios.get (
-            'http://localhost:8080/informations', 
+            `${process.env.REACT_APP_BASE_URL}/informations`, 
             {headers: {'Authorization': jwt}}
         ),
     };

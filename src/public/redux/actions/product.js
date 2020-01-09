@@ -6,7 +6,7 @@ export const getProduct = () => {
     return {
         type: 'GET_PRODUCT',
         payload: axios.get (
-            'http://localhost:8080/products', 
+            `${process.env.REACT_APP_BASE_URL}/products`, 
             {headers: {'Authorization': jwt}}
         ),
     };
@@ -16,7 +16,7 @@ export function postProduct(data){
     return {
         type: 'POST_PRODUCT',
         payload: axios.post (
-            'http://localhost:8080/products',data,
+            `${process.env.REACT_APP_BASE_URL}/products`,data,
             { headers: {"Authorization" : jwt} },
         ),
     };
@@ -26,7 +26,7 @@ export function putProduct(data){
     return {
         type: 'PUT_PRODUCT',
         payload: axios.put (
-            `http://localhost:8080/products/${data.id}`,
+            `${process.env.REACT_APP_BASE_URL}/products/${data.id}`,
             {
                 id : data.id,
                 name_product : data.name_product,
@@ -45,7 +45,7 @@ export function deleteProduct(id){
     return {
         type: 'DELETE_PRODUCT',
         payload: axios.delete (
-            `http://localhost:8080/products/${id}`,
+            `${process.env.REACT_APP_BASE_URL}/products/${id}`,
             { headers: {"Authorization" : jwt} },
         ),
     };

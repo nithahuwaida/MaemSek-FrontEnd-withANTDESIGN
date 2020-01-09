@@ -6,7 +6,7 @@ export const getCategory = () => {
     return {
         type: 'GET_CATEGORY',
         payload: axios.get (
-            'http://localhost:8080/categories', 
+            `${process.env.REACT_APP_BASE_URL}/categories`, 
             {headers: {'Authorization': jwt}}
         ),
     };
@@ -16,7 +16,7 @@ export function postCategory(data){
     return {
         type: 'POST_CATEGORY',
         payload: axios.post (
-            'http://localhost:8080/categories',data,
+            `${process.env.REACT_APP_BASE_URL}/categories`,data,
             { headers: {"Authorization" : jwt} },
         ),
     };
@@ -26,7 +26,7 @@ export function putCategory(data){
     return {
         type: 'PUT_CATEGORY',
         payload: axios.put (
-            `http://localhost:8080/categories/${data.id}`,
+            `${process.env.REACT_APP_BASE_URL}/categories/${data.id}`,
             {
                 id_category : data.id,
                 name_category : data.name_category,
@@ -40,7 +40,7 @@ export function deleteCategory(id){
     return {
         type: 'DELETE_CATEGORY',
         payload: axios.delete (
-            `http://localhost:8080/categories/${id}`,
+            `${process.env.REACT_APP_BASE_URL}/categories/${id}`,
             { headers: {"Authorization" : jwt} },
         ),
     };

@@ -50,7 +50,7 @@ export const getRecentOrder = () => {
     return {
         type: "GET_RECENT_ORDER",
         payload: axios.get(
-            'http://localhost:8080/transactions',
+            `${process.env.REACT_APP_BASE_URL}/transactions`,
             {headers: {'Authorization': jwt}}
         )
     };

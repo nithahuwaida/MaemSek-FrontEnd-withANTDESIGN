@@ -5,7 +5,7 @@ export function login(data){
     return {
         type : 'POST_LOGIN',
         payload : axios.post(
-            `http://localhost:8080/login`,
+            `${process.env.REACT_APP_BASE_URL}/login`,
             data,
         )
     }
@@ -15,7 +15,7 @@ export function register(data){
     return {
         type : 'POST_REGISTER',
         payload : axios.post(
-            `http://localhost:8080/register`,
+            `${process.env.REACT_APP_BASE_URL}/register`,
             data,
         )
     }
@@ -26,7 +26,7 @@ export function getUserById(id){
     return{
         type : 'GET_USER',
         payload : axios.get(
-            `http://localhost:8080/users/${id}`,
+            `${process.env.REACT_APP_BASE_URL}/users/${id}`,
             { headers: {"Authorization" : jwt} }
         )
     }
@@ -37,7 +37,7 @@ export function putUserById(data){
     return{
         type : 'PUT_USER',
         payload : axios.put(
-            `http://localhost:8080/users/${data.id}`,
+            `${process.env.REACT_APP_BASE_URL}/users/${data.id}`,
             {
                 id : data.id,
                 fullname : data.fullname,
