@@ -14,7 +14,7 @@ Backend ORM Sequelize (https://github.com/nithahuwaida/MaemSek-RESTful-API--with
 <img src="https://img.shields.io/badge/react_redux-7.1.1-orange">
 </p>
 
-MaemSek is a Point of Sale application in the form of a website built using React js. This Maemsek web can perform several functions as follows product management functions, categories, users, transaction, and order products.[Link MaemSek Aplication](https://maemsek.netlify.com/)
+MaemSek is a Point of Sale application in the form of a website built using React js. This Maemsek web can perform several functions as follows product management functions, categories, users, transaction, and order products. View [MaemSek Application](https://maemsek.netlify.com/)
 
 ## Features
 <b> Product Management </b>
