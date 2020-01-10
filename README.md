@@ -14,7 +14,7 @@ Backend ORM Sequelize (https://github.com/nithahuwaida/MaemSek-RESTful-API--with
 <img src="https://img.shields.io/badge/react_redux-7.1.1-orange">
 </p>
 
-MaemSek is a Point of Sale application in the form of a website built using React js. This Maemsek web can perform several functions as follows product management functions, categories, users, transaction, and order products.
+MaemSek is a Point of Sale application in the form of a website built using React js. This Maemsek web can perform several functions as follows product management functions, categories, users, transaction, and order products.[Link MaemSek Aplication](https://maemsek.netlify.com/)
 
 ## Features
 <b> Product Management </b>
@@ -42,7 +42,7 @@ MaemSek is a Point of Sale application in the form of a website built using Reac
 
  1. Download and Install RESTfull API from [MaemSek API](https://github.com/nithahuwaida/MaemSek-RESTful-API--withORMSequelize)
  2. Run backend (API) in local with (xampp or other)
- 3. Git clone [MemSek - React Website](https://github.com/nithahuwaida/MaemSek-FrontEnd-withANTDESIGN) or download zip
+ 3. Git clone [MaemSek - React Website](https://github.com/nithahuwaida/MaemSek-FrontEnd-withANTDESIGN) or download zip
  4. Open in your code editor (vscode, atom or other)
  5. npm Install & npm start
 
